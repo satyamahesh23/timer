@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Stopwatch</title>
+    <style>
+      body { font-family: system-ui, Arial, sans-serif; padding: 24px; }
+      .time { font-size: 48px; font-variant-numeric: tabular-nums; margin: 16px 0; }
+      button { padding: 10px 14px; margin-right: 8px; }
+    </style>
+  </head>
+  <body>
+    <h2>Stopwatch</h2>
+    <div class="time" id="display">00:00.000</div>
+
+    <button id="start">Start</button>
+    <button id="stop" disabled>Stop</button>
+    <button id="reset" disabled>Reset</button>
+
+    <script>
+      const display = document.getElementById("display");
+      const startBtn = document.getElementById("start");
+      const stopBtn = document.getElementById("stop");
+      const resetBtn = document.getElementById("reset");
+
+      let startTime = 0;
+      let elapsed = 0;
+      let timerId = null;
+
+      function format(ms) {
+        const minutes = Math.floor(ms / 60000);
+        const seconds = Math.floor((ms % 60000) / 1000);
+        const millis = ms % 1000;
+        return (
+          String(minutes).padStart(2, "0") +
+          ":" +
+          String(seconds).padStart(2, "0") +
+          "." +
+          String(millis).padStart(3, "0")
+        );
+      }
+
+      function render() {
+        display.textContent = format(elapsed);
+      }
+
+      function tick() {
+        elapsed = Date.now() - startTime;
+        render();
+      }
+
+      startBtn.addEventListener("click", () => {
+        if (timerId) return;
+        startTime = Date.now() - elapsed;
+        timerId = setInterval(tick, 10);
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        resetBtn.disabled = false;
+      });
+
+      stopBtn.addEventListener("click", () => {
+        if (!timerId) return;
+        clearInterval(timerId);
+        timerId = null;
+        render();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+      });
+
+      resetBtn.addEventListener("click", () => {
+        elapsed = 0;
+        if (timerId) {
+          startTime = Date.now();
+        }
+        render();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        resetBtn.disabled = true;
+        if (timerId) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+      });
+
+      render();
+    </script>
+  </body>
+</html>
