@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="./todo.css" />
+  </head>
+  <body>
+    <main class="app" aria-labelledby="title">
+      <header class="header">
+        <h2 id="title">Todo List</h2>
+        <p class="subtitle">Add tasks, mark them done, and they’ll stay saved.</p>
+      </header>
+
+      <section class="card" aria-label="Add a todo">
+        <form id="todoForm" class="row" autocomplete="off">
+          <label class="srOnly" for="todoInput">New todo</label>
+          <input
+            id="todoInput"
+            name="todo"
+            type="text"
+            placeholder="e.g., Finish homework"
+            maxlength="120"
+            required
+          />
+          <button id="addBtn" type="submit">Add</button>
+        </form>
+
+        <div class="toolbar" role="region" aria-label="Todo controls">
+          <div class="filters" role="tablist" aria-label="Filter todos">
+            <button type="button" class="chip isActive" data-filter="all" role="tab">
+              All
+            </button>
+            <button type="button" class="chip" data-filter="active" role="tab">
+              Active
+            </button>
+            <button type="button" class="chip" data-filter="completed" role="tab">
+              Completed
+            </button>
+          </div>
+
+          <button type="button" class="linkBtn" id="clearCompletedBtn">
+            Clear completed
+          </button>
+        </div>
+
+        <div class="meta" aria-live="polite">
+          <span id="countText">0 items</span>
+        </div>
+
+        <ul id="todoList" class="list" aria-label="Todos"></ul>
+
+        <p id="emptyState" class="empty" hidden>No todos yet. Add one above.</p>
+      </section>
+    </main>
+
+    <script src="./todo.js"></script>
+  </body>
+</html>
